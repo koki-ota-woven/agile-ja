@@ -102,7 +102,7 @@ void test_divide_by_two() {
 // `greeting` 用のテスト `test_greeting` を作成してください
 void test_greeting() {
     std::cout << "========== test_greeting =========" << std::endl;
-    my_assert(greeting("Fahrenheit", 100) == "AAA", "Test failed");
+    my_assert(greeting("Fahrenheit", 100) == "Hello, Fahrenheit. It is 100.000000 degrees warmer today than yesterday", "Test failed");
     std::cout << "==================================\n\n" << std::endl;
 }
 
