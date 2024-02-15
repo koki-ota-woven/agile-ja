@@ -53,17 +53,17 @@ void my_assert(bool expr, std::string msg){
 // `contains` 用のテスト `test_contains` を作成してください
 void test_contains() {
     std::cout << "========== test_contains =========" << std::endl;
-    my_assert(contains("Koki", names), "The valid number");
-    my_assert(contains("Nick", names), "The valid number");
+    my_assert(contains("Koki", names), "Test failed");
+    my_assert(contains("Nick", names), "Test failed");
     std::cout << "==================================\n\n" << std::endl;
 }
 
 // `get_name` 用のテスト `test_get_name` を作成してください
 void test_get_name() {
     std::cout << "========== test_get_name =========" << std::endl;
-    my_assert(get_name("Koki", names) == "Koki", "The valid number");
-    my_assert(get_name("Koki", names) == "", "The valid number");
-    my_assert(get_name("Nick", names) == "Nick", "The valid number");
+    my_assert(get_name("Koki", names) == "Koki", "Test failed");
+    my_assert(get_name("Koki", names) == "", "Test failed");
+    my_assert(get_name("Nick", names) == "Nick", "Test failed");
     std::cout << "==================================\n\n" << std::endl;
 }
 
@@ -71,22 +71,48 @@ void test_get_name() {
 void test_add_name() {
     std::cout << "========== test_add_name =========" << std::endl;
     add_name("Koki", names);
-    my_assert(names.size() == 3, "The valid number");
-    my_assert(names.size() == 4, "The valid number");
-    my_assert(names.size()== 5, "The valid number");
+    my_assert(names.size() == 3, "The failed");
+    my_assert(names.size() == 4, "The failed");
+    my_assert(names.size()== 5, "The failed");
     std::cout << "==================================\n\n" << std::endl;
 }
 
 // `add_two` 用のテスト `test_add_two` を作成してください
+void test_add_two() {
+    std::cout << "========== test_add_two =========" << std::endl;
+    my_assert(add_two(4) == 6, "Test failed");
+    my_assert(add_two(4) == 9, "Test failed");
+    my_assert(add_two(4.2) == 6, "Test failed");
+    my_assert(add_two(4.2) == 7, "Test failed");
+    my_assert(add_two(4.2) == 9, "Test failed");
+    std::cout << "==================================\n\n" << std::endl;
+
+}
 
 // `divide_by_two` 用のテスト `test_divide_by_two` を作成してください
+void test_divide_by_two() {
+    std::cout << "========== test_divide_by_two =========" << std::endl;
+    my_assert(divide_by_two(4) == 2, "Test failed");
+    my_assert(divide_by_two(4) == 1, "Test failed");
+    my_assert(divide_by_two(3) == 1, "Test failed");
+    my_assert(divide_by_two(3) == 2, "Test failed");
+    std::cout << "==================================\n\n" << std::endl;
+}
 
 // `greeting` 用のテスト `test_greeting` を作成してください
+void test_greeting() {
+    std::cout << "========== test_greeting =========" << std::endl;
+    my_assert(greeting("Fahrenheit", 100) == "AAA", "Test failed");
+    std::cout << "==================================\n\n" << std::endl;
+}
 
 int main() {
     test_contains();
     test_get_name();
     test_add_name();
+    test_add_two();
+    test_divide_by_two();
+    test_greeting();
     return 0;
 }
 
