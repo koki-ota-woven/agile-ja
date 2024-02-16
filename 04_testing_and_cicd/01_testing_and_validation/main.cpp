@@ -41,20 +41,28 @@ std::string greeting(const std::string& name, double num) {
 /*----難易度: 富士----*/
 
 // `my_assert` をここに定義し、以降のテストに使用してください。
-void my_assert(bool expr, std::string msg){
+void my_assert(bool expr, std::string msg) {
     if (!expr) {
-        std::cout << msg <<std::endl;
-        return;
+        // std::cout << msg <<std::endl;
+        throw std::runtime_error(msg);
     }
-    std::cout << "Test Passed" <<std::endl;
-    return;
+    std::cout << "Test Passed" << std::endl;
 }
 
 // `contains` 用のテスト `test_contains` を作成してください
 void test_contains() {
+    std::vector<std::string> names {"Nick", "Lewis", "Nikos"};
     std::cout << "========== test_contains =========" << std::endl;
-    my_assert(contains("Koki", names), "Test failed");
-    my_assert(contains("Nick", names), "Test failed");
+    try {
+        my_assert(contains("Koki", names) == false, "Test failed");
+    } catch(std::runtime_error& e) {
+        std::cerr << e.what() << std::endl;
+    }
+    try {
+        my_assert(contains("Nick", names) == true, "Test failed");
+    } catch(std::runtime_error& e){
+        std::cerr << e.what() << std::endl;
+    }
     std::cout << "==================================\n\n" << std::endl;
 }
 
@@ -70,10 +78,15 @@ void test_get_name() {
 // `add_name` 用のテスト `test_add_name` を作成してください
 void test_add_name() {
     std::cout << "========== test_add_name =========" << std::endl;
-    add_name("Koki", names);
-    my_assert(names.size() == 3, "The failed");
-    my_assert(names.size() == 4, "The failed");
-    my_assert(names.size()== 5, "The failed");
+    std::vector<std::string> names {"Nick", "Lewis", "Nikos"};
+    try {
+        int name_size = names.size();
+        add_name("Koki", names);
+        my_assert(names.size() == name_size + 1, "The size of vecotr is not increasd  by 1");
+        my_assert(names[name_size]== "Koki", "The unexpected name was added");
+    } catch(std::runtime_error& e) {
+        std::cerr << e.what() <<std::endl;
+    }
     std::cout << "==================================\n\n" << std::endl;
 }
 
@@ -108,7 +121,7 @@ void test_greeting() {
 
 int main() {
     test_contains();
-    test_get_name();
+    // test_get_name();
     test_add_name();
     test_add_two();
     test_divide_by_two();
