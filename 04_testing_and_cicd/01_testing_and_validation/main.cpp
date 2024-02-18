@@ -41,9 +41,8 @@ std::string greeting(const std::string& name, double num) {
 /*----難易度: 富士----*/
 
 // `my_assert` をここに定義し、以降のテストに使用してください。
-void my_assert(bool expr, std::string msg) {
+void my_assert(bool expr, std::string msg = "Test Failed!!") {
     if (!expr) {
-        // std::cout << msg <<std::endl;
         throw std::runtime_error(msg);
     }
     std::cout << "Test Passed" << std::endl;
@@ -54,13 +53,9 @@ void test_contains() {
     std::vector<std::string> names {"Nick", "Lewis", "Nikos"};
     std::cout << "========== test_contains =========" << std::endl;
     try {
-        my_assert(contains("Koki", names) == false, "Test failed");
-    } catch(std::runtime_error& e) {
-        std::cerr << e.what() << std::endl;
-    }
-    try {
-        my_assert(contains("Nick", names) == true, "Test failed");
-    } catch(std::runtime_error& e){
+        my_assert(contains("Nick", names) == true, "Test failed for present entry");
+        my_assert(contains("Koki", names) == false, "Test failed for missing entry");
+    } catch(const std::exception& e) {
         std::cerr << e.what() << std::endl;
     }
     std::cout << "==================================\n\n" << std::endl;
@@ -68,24 +63,31 @@ void test_contains() {
 
 // `get_name` 用のテスト `test_get_name` を作成してください
 void test_get_name() {
+    std::vector<std::string> names {"Nick", "Lewis", "Nikos"};
     std::cout << "========== test_get_name =========" << std::endl;
-    my_assert(get_name("Koki", names) == "Koki", "Test failed");
-    my_assert(get_name("Koki", names) == "", "Test failed");
-    my_assert(get_name("Nick", names) == "Nick", "Test failed");
+    try {
+        my_assert(get_name("Nick", names) == "Nick", "Test failed for present entry");
+        my_assert(get_name("Koki", names) == "", "Test failed for missing entry");
+    } catch(const std::exception& e){
+        std::cerr << e.what() << std::endl;
+    }
     std::cout << "==================================\n\n" << std::endl;
 }
 
 // `add_name` 用のテスト `test_add_name` を作成してください
 void test_add_name() {
-    std::cout << "========== test_add_name =========" << std::endl;
     std::vector<std::string> names {"Nick", "Lewis", "Nikos"};
+
+    std::cout << "========== test_add_name =========" << std::endl;
     try {
-        int name_size = names.size();
-        add_name("Koki", names);
-        my_assert(names.size() == name_size + 1, "The size of vecotr is not increasd  by 1");
-        my_assert(names[name_size]== "Koki", "The unexpected name was added");
+        const size_t size_before = names.size();
+        const std::string added_element = "Koki";
+        add_name(added_element, names);
+        const size_t size_after = names.size();
+        my_assert(size_before + 1 == size_after, "Test failed for the size");
+        my_assert(names.back() == added_element, "Test failed for the added element");
     } catch(std::runtime_error& e) {
-        std::cerr << e.what() <<std::endl;
+        std::cerr << e.what() << std::endl;
     }
     std::cout << "==================================\n\n" << std::endl;
 }
@@ -93,11 +95,12 @@ void test_add_name() {
 // `add_two` 用のテスト `test_add_two` を作成してください
 void test_add_two() {
     std::cout << "========== test_add_two =========" << std::endl;
-    my_assert(add_two(4) == 6, "Test failed");
-    my_assert(add_two(4) == 9, "Test failed");
-    my_assert(add_two(4.2) == 6, "Test failed");
-    my_assert(add_two(4.2) == 7, "Test failed");
-    my_assert(add_two(4.2) == 9, "Test failed");
+    try {
+        my_assert(add_two(2) == 4, "Test failed with positive integer");
+        my_assert(add_two(-4) == -2, "Test failed with negative integer");
+    } catch (const std::exception& e) {
+        std::cerr << e.what() << std::endl;
+    }
     std::cout << "==================================\n\n" << std::endl;
 
 }
@@ -105,23 +108,30 @@ void test_add_two() {
 // `divide_by_two` 用のテスト `test_divide_by_two` を作成してください
 void test_divide_by_two() {
     std::cout << "========== test_divide_by_two =========" << std::endl;
-    my_assert(divide_by_two(4) == 2, "Test failed");
-    my_assert(divide_by_two(4) == 1, "Test failed");
-    my_assert(divide_by_two(3) == 1, "Test failed");
-    my_assert(divide_by_two(3) == 2, "Test failed");
+    try {
+        my_assert(divide_by_two(4) == 2, "Test failed with positive input");
+        my_assert(divide_by_two(-4) == -2, "Test failed with negative input");
+    } catch(const std::exception& e) {
+        std::cerr << e.what() << std::endl;
+    }
     std::cout << "==================================\n\n" << std::endl;
 }
 
 // `greeting` 用のテスト `test_greeting` を作成してください
 void test_greeting() {
     std::cout << "========== test_greeting =========" << std::endl;
-    my_assert(greeting("Fahrenheit", 100) == "Hello, Fahrenheit. It is 100.000000 degrees warmer today than yesterday", "Test failed");
+    try {
+        const std::string expected = "Hello, Fahrenheit. It is 100.000000 degrees warmer today than yesterday";
+        my_assert(greeting("Fahrenheit", 100) == expected, "Test failed with wrong greeting");
+    } catch (const std::exception &e) {
+        std::cerr << e.what() << std::endl;
+    }
     std::cout << "==================================\n\n" << std::endl;
 }
 
 int main() {
     test_contains();
-    // test_get_name();
+    test_get_name();
     test_add_name();
     test_add_two();
     test_divide_by_two();
